@@ -19,3 +19,6 @@ Route::get('/', function () {
 Route::get('amr', function () {
     return view('welcome');
 });
+Route::get('amr23', function () {
+    return view('welcome');
+});
