@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('farah', function () {
     return view('welcome');
 });
