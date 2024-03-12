@@ -18,11 +18,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/sw', function () {
-    return view('welcome');
-});
 
-
-Route::get('/sw', function () {
-    return view('welcome');
-});
