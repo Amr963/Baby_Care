@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('childrens', function (Blueprint $table) {
+        Schema::create('frequently_asked_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->enum('gender', ['male', 'female'])->nullable();
+            $table->longText('question')->nullable();
+            $table->longText('answer')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('childrens');
+        Schema::dropIfExists('frequently_asked_questions');
     }
 };
