@@ -22,3 +22,6 @@ Route::get('amr', function () {
 Route::get('farah', function () {
     return view('welcome');
 });
+Route::get('farah22', function () {
+    return view('welcome');
+});
