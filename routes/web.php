@@ -19,9 +19,3 @@ Route::get('/', function () {
 Route::get('amr', function () {
     return view('welcome');
 });
-Route::get('farah', function () {
-    return view('welcome');
-});
-Route::get('farah22', function () {
-    return view('welcome');
-});
