@@ -18,4 +18,7 @@ Route::get('/', function () {
 });
 
 
+Route::get('amora', function () {
+    return view('welcome');
+});
 
