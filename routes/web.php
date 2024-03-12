@@ -16,9 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('amr', function () {
-    return view('welcome');
-});
-Route::get('amr23', function () {
-    return view('welcome');
-});
