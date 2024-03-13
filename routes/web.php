@@ -18,8 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 Route::resource('/Vaccines', VaccinesController::class);
 
 Route::resources([
