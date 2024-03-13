@@ -11,7 +11,7 @@ class StorevaccinesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StorevaccinesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' =>['required','string'],
+            'description' =>['required','string'],
+            'image_path_vaccines' =>['required'],
+            'short_video_path_vaccines' =>['required'],
+            'indication' =>['required','string'],
+            'recommended_age' =>['required','date'],
+            'guidelines' =>['required','string'],
+            'injection_location' =>['required','string'],
         ];
     }
 }

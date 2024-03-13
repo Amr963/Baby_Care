@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/Vaccines', VaccinesController::class);
+Route::resource('/vaccines', VaccinesController::class);
 
 Route::resources([
     '/children' => ChildrenController::class,

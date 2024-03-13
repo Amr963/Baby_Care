@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\vaccines;
 use App\Http\Requests\StorevaccinesRequest;
 use App\Http\Requests\UpdatevaccinesRequest;
+use Illuminate\Support\Facades\Storage;
 
 class VaccinesController extends Controller
 {
@@ -30,16 +31,20 @@ class VaccinesController extends Controller
      */
     public function store(StorevaccinesRequest $request)
     {
+        $image_path_vaccines=$request->file('image_path_vaccines')->store('image_path_vaccine', 'public');
+        $short_video_path_vaccines=$request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
+    
         vaccines::create(([
             'name' => $request->name,
             'description' => $request->description,
-            'image_path_vaccines' => $request->image_path_vaccines,
-            'short_video_path_vaccines' => $request->short_video_path_vaccines,
+            'image_path_vaccines' => $image_path_vaccines,
+            'short_video_path_vaccines' => $short_video_path_vaccines,
             'indication' => $request->indication,
             'recommended_age' => $request->recommended_age,
             'guidelines' => $request->guidelines,
             'injection_location' => $request->injection_location,
         ]));
+        return redirect()->route('vaccines.index');
     }
 
     /**
@@ -55,6 +60,7 @@ class VaccinesController extends Controller
      */
     public function edit(vaccines $vaccines)
     {
+    //   $vaccines=vaccines::findOrFail($vaccines->id);
         return view('vaccine.edit', compact('vaccines'));
     }
 
@@ -62,12 +68,16 @@ class VaccinesController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdatevaccinesRequest $request, vaccines $vaccines)
-    {
+    { 
+        if(Storage::exists($vaccines->image_path_vaccines)){
+        Storage::delete($vaccines->image_path_vaccines);
+        };
+
         $vaccines->update([
             'name' => $request->name,
             'description' => $request->description,
-            'image_path_vaccines' => $request->image_path_vaccines,
-            'short_video_path_vaccines' => $request->short_video_path_vaccines,
+            'image_path_vaccines' => $request->file('image_path_vaccines')->store('image_path_vaccine', 'public'),
+            'short_video_path_vaccines' => $request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public'),
             'indication' => $request->indication,
             'recommended_age' => $request->recommended_age,
             'guidelines' => $request->guidelines,
