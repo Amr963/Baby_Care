@@ -43,6 +43,7 @@
                             <td>{{ $allVaccines->name }}</td>
                             <td>{{ $allVaccines->description }}</td>
                             <td><img src="{{Storage::url($allVaccines->image_path_vaccines)}}" alt="" width="40" height="40"></td>
+                            {{-- <td>{{ short_video_path_vaccines}}</td> --}}
                             <td>{{ $allVaccines->indication }}</td>
                             <td>{{ $allVaccines->recommended_age }}</td>
                             <td>{{ $allVaccines->guidelines }}</td>

@@ -50,30 +50,30 @@ class VaccinesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(vaccines $vaccines)
+    public function show(vaccines $vaccine)
     {
-        return view('vaccine.show', compact('vaccines'));
+        return view('vaccine.show', compact('vaccine'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(vaccines $vaccines)
+    public function edit(vaccines $vaccine)
     {
     //   $vaccines=vaccines::findOrFail($vaccines->id);
-        return view('vaccine.edit', compact('vaccines'));
+        return view('vaccine.edit', compact('vaccine'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatevaccinesRequest $request, vaccines $vaccines)
+    public function update(UpdatevaccinesRequest $request, vaccines $vaccine)
     { 
-        if(Storage::exists($vaccines->image_path_vaccines)){
-        Storage::delete($vaccines->image_path_vaccines);
+        if(Storage::exists($vaccine->image_path_vaccines)){
+        Storage::delete($vaccine->image_path_vaccines);
         };
 
-        $vaccines->update([
+        $vaccine->update([
             'name' => $request->name,
             'description' => $request->description,
             'image_path_vaccines' => $request->file('image_path_vaccines')->store('image_path_vaccine', 'public'),
@@ -88,9 +88,9 @@ class VaccinesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(vaccines $vaccines)
+    public function destroy(vaccines $vaccine)
     {
-        $vaccines->delete();
-        return redirect()->route('Vaccines.index');
+        $vaccine->delete();
+        return redirect()->route('vaccines.index');
     }
 }
