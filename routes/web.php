@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChildrenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test1', function () {
-    return view('welcome1');
-});
-
-Route::get('/test2', function () {
-    return view('welcome2');
-});
+Route::resources([
+    '/children' => ChildrenController::class,
+]);
