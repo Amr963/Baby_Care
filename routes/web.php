@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VaccinesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +26,6 @@ Route::get('/test1', function () {
 Route::get('/test2', function () {
     return view('welcome2');
 });
+
+
+Route::resource('/Vaccines', VaccinesController::class);
