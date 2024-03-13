@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Children;
 use App\Http\Requests\StoreChildrenRequest;
 use App\Http\Requests\UpdateChildrenRequest;
@@ -12,16 +13,16 @@ class ChildrenController extends Controller
      */
     public function index()
     {
-//
-    
-            }
+        $allChildren = Children::all();
+        return view('children.index', compact('allChildren'));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('children.create');
     }
 
     /**
@@ -29,7 +30,12 @@ class ChildrenController extends Controller
      */
     public function store(StoreChildrenRequest $request)
     {
-        //
+        Children::created([
+            'name' => $request->name,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+        ]);
+        return view('children.create')->with('success', 'children added successfully!');
     }
 
     /**
@@ -37,7 +43,7 @@ class ChildrenController extends Controller
      */
     public function show(Children $children)
     {
-        //
+        return view('children.show', compact('children'));
     }
 
     /**
@@ -45,7 +51,7 @@ class ChildrenController extends Controller
      */
     public function edit(Children $children)
     {
-        //
+        return view('children.edit', compact('children'));
     }
 
     /**
@@ -53,7 +59,12 @@ class ChildrenController extends Controller
      */
     public function update(UpdateChildrenRequest $request, Children $children)
     {
-        //
+        $children->update([
+            'name' => $request->name,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+        ]);
+        return redirect()->route('children.show', $children);
     }
 
     /**
@@ -61,6 +72,7 @@ class ChildrenController extends Controller
      */
     public function destroy(Children $children)
     {
-        //
+        $children->delete();
+        return redirect()->route('children.index');
     }
 }

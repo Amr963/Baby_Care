@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Children extends Model
 {
     use HasFactory;
+
+    /**
+     * fillable
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'date_of_birth',
+        'gender',
+    ];
 }

@@ -11,7 +11,7 @@ class StoreChildrenRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreChildrenRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'date_of_birth' => 'required',
+            'gender' => 'required',
         ];
     }
 }
