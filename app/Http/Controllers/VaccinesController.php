@@ -13,7 +13,8 @@ class VaccinesController extends Controller
      */
     public function index()
     {
-        //
+        $allVaccines = vaccines::all();
+        return view('vaccine.index', compact('allVaccines'));
     }
 
     /**
@@ -21,7 +22,7 @@ class VaccinesController extends Controller
      */
     public function create()
     {
-        //
+        return view('vaccine.create');
     }
 
     /**
@@ -29,7 +30,16 @@ class VaccinesController extends Controller
      */
     public function store(StorevaccinesRequest $request)
     {
-        //
+        vaccines::create(([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image_path_vaccines' => $request->image_path_vaccines,
+            'short_video_path_vaccines' => $request->short_video_path_vaccines,
+            'indication' => $request->indication,
+            'recommended_age' => $request->recommended_age,
+            'guidelines' => $request->guidelines,
+            'injection_location' => $request->injection_location,
+        ]));
     }
 
     /**
@@ -37,7 +47,7 @@ class VaccinesController extends Controller
      */
     public function show(vaccines $vaccines)
     {
-        //
+        return view('vaccine.show', compact('vaccines'));
     }
 
     /**
@@ -45,7 +55,7 @@ class VaccinesController extends Controller
      */
     public function edit(vaccines $vaccines)
     {
-        //
+        return view('vaccine.edit', compact('vaccines'));
     }
 
     /**
@@ -53,7 +63,16 @@ class VaccinesController extends Controller
      */
     public function update(UpdatevaccinesRequest $request, vaccines $vaccines)
     {
-        //
+        $vaccines->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image_path_vaccines' => $request->image_path_vaccines,
+            'short_video_path_vaccines' => $request->short_video_path_vaccines,
+            'indication' => $request->indication,
+            'recommended_age' => $request->recommended_age,
+            'guidelines' => $request->guidelines,
+            'injection_location' => $request->injection_location,
+        ]);
     }
 
     /**
@@ -61,6 +80,7 @@ class VaccinesController extends Controller
      */
     public function destroy(vaccines $vaccines)
     {
-        //
+        $vaccines->delete();
+        return redirect()->route('Vaccines.index');
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChildrenController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\VaccinesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/Vaccines', VaccinesController::class);
+
 Route::resources([
     '/children' => ChildrenController::class,
 ]);
