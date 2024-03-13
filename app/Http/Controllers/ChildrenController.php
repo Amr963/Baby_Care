@@ -42,38 +42,40 @@ class ChildrenController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Childrens $children)
+    public function show(Childrens $child)
     {
-        return view('children.show', compact('children'));
+        return view('children.show', compact('child'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Childrens $children)
+    public function edit(Childrens $child)
     {
-        return view('children.edit', compact('children'));
+        return view('children.edit', compact('child'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChildrensRequest $request, Childrens $children)
+    public function update(UpdateChildrensRequest $request, Childrens $child)
     {
-        $children->update([
+        // dd($request);
+        $child->update([
             'name' => $request->name,
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
         ]);
-        return redirect()->route('children.show', $children);
+        return view('children.show', compact('child'))->with('success', 'children updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Childrens $children)
+    public function destroy(Childrens $child)
     {
-        $children->delete();
-        return redirect()->route('children.index');
+        // dd($child);
+        $child->delete();
+        return back()->with('success', 'children deleted successfully!');
     }
 }
