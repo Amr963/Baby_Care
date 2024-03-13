@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::resources([
     '/children' => ChildrenController::class,
 ]);
