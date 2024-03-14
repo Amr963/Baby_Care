@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\frequently_asked_questions;
 use App\Http\Requests\Storefrequently_asked_questionsRequest;
 use App\Http\Requests\Updatefrequently_asked_questionsRequest;
+use Illuminate\Support\Facades\Storage;
 
 class FrequentlyAskedQuestionsController extends Controller
 {
@@ -13,7 +14,8 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function index()
     {
-        //
+        $frequently_asked_questions= frequently_asked_questions::all();
+        return view('frequently_asked_questions.index', compact('frequently_asked_questions'));
     }
 
     /**
@@ -21,7 +23,8 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function create()
     {
-        //
+        return view('frequently_asked_questions.create');
+        
     }
 
     /**
@@ -29,7 +32,14 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function store(Storefrequently_asked_questionsRequest $request)
     {
-        //
+        $image=$request->file('image')->store('image_frequently_asked_questions','public');
+
+        frequently_asked_questions::create([
+            'question' =>$request->question,
+            'answer' =>$request->answer,
+            'image' =>$image,
+        ]);
+        return redirect()->route('frequently_asked_questions.index');
     }
 
     /**
@@ -37,7 +47,8 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function show(frequently_asked_questions $frequently_asked_questions)
     {
-        //
+        return view('frequently_asked_questions.show', compact('frequently_asked_questions'));
+        
     }
 
     /**
@@ -45,7 +56,8 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function edit(frequently_asked_questions $frequently_asked_questions)
     {
-        //
+        return view('frequently_asked_questions.edit', compact('frequently_asked_questions'));
+        
     }
 
     /**
@@ -61,6 +73,7 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function destroy(frequently_asked_questions $frequently_asked_questions)
     {
-        //
+        $frequently_asked_questions->delete();
+        return redirect()->route('frequently_asked_questions.index');
     }
 }
