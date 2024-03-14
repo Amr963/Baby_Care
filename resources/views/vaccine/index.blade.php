@@ -27,7 +27,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">image_path_vaccines</th>
-                        {{-- <th scope="col">short_video_path_vaccines</th> --}}
+                        <th scope="col">short_video_path_vaccines</th>
                         <th scope="col">indication</th>
                         <th scope="col">recommended_age</th>
                         <th scope="col">guidelines</th>
@@ -42,8 +42,8 @@
                             <th scope="row">{{ $allVaccines->id }}</th>
                             <td>{{ $allVaccines->name }}</td>
                             <td>{{ $allVaccines->description }}</td>
-                            <td><img src="{{Storage::url($allVaccines->image_path_vaccines)}}" alt="" width="40" height="40"></td>
-                            {{-- <td>{{ short_video_path_vaccines}}</td> --}}
+                            <td><img src="{{Storage::url($allVaccines->image_path_vaccines)}}" alt="" width="80" height="80"></td>
+                            <td><video controls src="{{Storage::url($allVaccines->short_video_path_vaccines)}}" width="150" height="130" outoplay></video></td>
                             <td>{{ $allVaccines->indication }}</td>
                             <td>{{ $allVaccines->recommended_age }}</td>
                             <td>{{ $allVaccines->guidelines }}</td>

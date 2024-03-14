@@ -41,8 +41,8 @@
             <br>
 
             <div class="col-12">
-              <label for="inputNanme4" class="form-label"><b>image_path_vaccines </b> </label>
-              <img src="{{Storage::url($vaccine->image_path_vaccines)}}" width="40" height="40">
+              <label for="inputNanme4" class="form-label"><b>image_path_vaccines </b> </label> <br>
+              old image : <img src="{{Storage::url($vaccine->image_path_vaccines)}}" width="80" height="80">
               <input type="file" class="form-control" id="inputNanme4" name="image_path_vaccines" value="{{old('image_path_vaccines',$vaccine->image_path_vaccines)}}"  class="@error('image_path_vaccines') is-invalid @enderror">
               @error('image_path_vaccines')
                  <div class="text-danger">{{ $message }}</div>
@@ -55,7 +55,8 @@
             
 
             <div class="col-12">
-              <label for="inputNanme4" class="form-label"><b>short_video_path_vaccines </b> </label>
+              <label for="inputNanme4" class="form-label"><b>short_video_path_vaccines </b> </label><br>
+             old video :   <video controls src="{{Storage::url($vaccine->short_video_path_vaccines)}}" width="150" height="130" outoplay></video><br>
               <input type="file" class="form-control" id="inputNanme4" name="short_video_path_vaccines" value="{{old('short_video_path_vaccines',$vaccine->short_video_path_vaccines)}}"  class="@error('short_video_path_vaccines') is-invalid @enderror">
               @error('short_video_path_vaccines')
                  <div class="text-danger">{{ $message }}</div>
