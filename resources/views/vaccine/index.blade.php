@@ -11,6 +11,9 @@
     
 <div class="container">
     <div class="row">
+
+        <h2 class="text-center">All vacciens</h2>
+
         <div class="my-5 col-8 mx-auto">
             <a href="{{ route('vaccines.create') }}" class="btn btn-primary">Add vaccien</a>
         </div>

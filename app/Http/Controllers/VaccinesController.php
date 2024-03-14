@@ -84,8 +84,8 @@ class VaccinesController extends Controller
         $vaccine->update([
             'name' => $request->name,
             'description' => $request->description,
-            'image_path_vaccines' => $image_path_vaccines,
-            'short_video_path_vaccines' =>$short_video_path_vaccines,
+            'image_path_vaccines' => $image_path_vaccines ,
+            'short_video_path_vaccines' =>$short_video_path_vaccines ,
             'indication' => $request->indication,
             'recommended_age' => $request->recommended_age,
             'guidelines' => $request->guidelines,

@@ -24,8 +24,8 @@ class UpdatevaccinesRequest extends FormRequest
         return [
             'name' =>['required','string'],
             'description' =>['required','string'],
-            'image_path_vaccines' =>['required'],
-            'short_video_path_vaccines' =>['required'],
+            'image_path_vaccines' =>['required','image'],
+            'short_video_path_vaccines' =>['required','file'],
             'indication' =>['required','string'],
             'recommended_age' =>['required','date'],
             'guidelines' =>['required','string'],
