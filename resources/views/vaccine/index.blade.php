@@ -14,7 +14,6 @@
         <div class="my-5 col-8 mx-auto">
             <a href="{{ route('vaccines.create') }}" class="btn btn-primary">Add vaccien</a>
         </div>
-        <div class="col-8 mx-auto">
             @if (session()->has('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}

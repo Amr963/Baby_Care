@@ -12,7 +12,6 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-8 mx-auto">
           
         
           <h5 class="text-center">Add New vacciens</h5>

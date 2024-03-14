@@ -12,7 +12,6 @@
 <div class="container">
     <div class="row">
         
-        <div class="col-8 mx-auto">
             @if (session()->has('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -32,7 +31,6 @@
                         <th scope="col">recommended_age</th>
                         <th scope="col">guidelines</th>
                         <th scope="col">injection_location</th>
-                        <th scope="col">options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,17 +46,7 @@
                             <td>{{ $vaccine->recommended_age }}</td>
                             <td>{{ $vaccine->guidelines }}</td>
                             <td>{{ $vaccine->injection_location }}</td>
-                            <td>
-                               
-                                <a href="{{ route('vaccines.edit', $vaccine->id) }}">edit</a>
-                       
-                                {{-- <a href="{{ route('category.delete', $category->id) }}">delete</a> --}}
-                                <form action="{{ route('vaccines.destroy', $vaccine->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" name="delete" value="delete">
-                                </form>
-                            </td>
+                            
                         </tr>
                     
                 </tbody>
