@@ -44,7 +44,7 @@ class VaccinesController extends Controller
             'guidelines' => $request->guidelines,
             'injection_location' => $request->injection_location,
         ]));
-        return redirect()->route('vaccines.index');
+        return redirect()->route('vaccines.index')->with('success','vaccine created successfully');
     }
 
     /**
@@ -69,10 +69,10 @@ class VaccinesController extends Controller
      */
     public function update(UpdatevaccinesRequest $request, vaccines $vaccine)
     { 
-         $image_path_vaccines= $vaccine->image_path_vaccines;
-         $short_video_path_vaccines=$vaccine->short_video_path_vaccines;
+    $image_path_vaccines= $vaccine->image_path_vaccines;
+    $short_video_path_vaccines=$vaccine->short_video_path_vaccines;
 
-        if($request->file('image_path_vaccines') && $request->file('image_path_vaccines') != $vaccine->image_path_vaccines ){
+    if($request->file('image_path_vaccines') && $request->file('image_path_vaccines') != $vaccine->image_path_vaccines ){
         Storage::disk('public')->delete($vaccine->image_path_vaccines);
         $image_path_vaccines=$request->file('image_path_vaccines')->store('image_path_vaccine','public');
     };
@@ -95,7 +95,7 @@ class VaccinesController extends Controller
             'guidelines' => $request->guidelines ? $request->guidelines : $vaccine->guidelines,
             'injection_location' => $request->injection_location ? $request->injection_location : $vaccine->injection_location,
         ]);
-        return redirect()->route('vaccines.index');
+        return redirect()->route('vaccines.index')->with('success','vaccine updated successfully');
 
     }
 
@@ -112,6 +112,6 @@ class VaccinesController extends Controller
                 Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
             };
         $vaccine->delete();
-        return redirect()->route('vaccines.index');
+        return redirect()->route('vaccines.index')->with('success','vaccine deleted successfully');
     }
 }

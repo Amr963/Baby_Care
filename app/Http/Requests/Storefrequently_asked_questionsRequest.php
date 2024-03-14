@@ -11,7 +11,7 @@ class Storefrequently_asked_questionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class Storefrequently_asked_questionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'question' =>['required','string'],
+            'answer' =>['required','string'],
+            'image' =>['required','image'],
         ];
     }
 }
