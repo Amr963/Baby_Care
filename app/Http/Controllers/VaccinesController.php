@@ -69,27 +69,31 @@ class VaccinesController extends Controller
      */
     public function update(UpdatevaccinesRequest $request, vaccines $vaccine)
     { 
-        if(Storage::disk('public')->exists($vaccine->image_path_vaccines )){
+         $image_path_vaccines= $vaccine->image_path_vaccines;
+         $short_video_path_vaccines=$vaccine->short_video_path_vaccines;
+
+        if($request->file('image_path_vaccines') && $request->file('image_path_vaccines') != $vaccine->image_path_vaccines ){
         Storage::disk('public')->delete($vaccine->image_path_vaccines);
-        };
-
-        if(Storage::disk('public')->exists($vaccine->short_video_path_vaccines)){
-            Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
-        };
-
-      
         $image_path_vaccines=$request->file('image_path_vaccines')->store('image_path_vaccine','public');
+    };
+    
+    
+    if($request->file('short_video_path_vaccines') && $request->file('short_video_path_vaccines') != $vaccine->short_video_path_vaccines){
+        Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
         $short_video_path_vaccines=$request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
+    };
+    
+    
         
         $vaccine->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image_path_vaccines' => $image_path_vaccines ,
-            'short_video_path_vaccines' =>$short_video_path_vaccines ,
-            'indication' => $request->indication,
-            'recommended_age' => $request->recommended_age,
-            'guidelines' => $request->guidelines,
-            'injection_location' => $request->injection_location,
+            'name' => $request->name ? $request->name : $vaccine->name,
+            'description' => $request->description ?  $request->description :$vaccine->description,
+            'image_path_vaccines' => $image_path_vaccines ? $image_path_vaccines : $vaccine->image_path_vaccines,
+            'short_video_path_vaccines' =>$short_video_path_vaccines ? $short_video_path_vaccines : $vaccine->short_video_path_vaccines ,
+            'indication' => $request->indication ?  $request->indication : $vaccine->indication,
+            'recommended_age' => $request->recommended_age ? $request->recommended_age: $vaccine->recommended_age,
+            'guidelines' => $request->guidelines ? $request->guidelines : $vaccine->guidelines,
+            'injection_location' => $request->injection_location ? $request->injection_location : $vaccine->injection_location,
         ]);
         return redirect()->route('vaccines.index');
 

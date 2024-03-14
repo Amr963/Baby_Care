@@ -22,14 +22,14 @@ class UpdatevaccinesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' =>['required','string'],
-            'description' =>['required','string'],
-            'image_path_vaccines' =>['required','image'],
-            'short_video_path_vaccines' =>['required','file'],
-            'indication' =>['required','string'],
-            'recommended_age' =>['required','date'],
-            'guidelines' =>['required','string'],
-            'injection_location' =>['required','string'],
+            'name' =>['string'],
+            'description' =>['string'],
+            'image_path_vaccines' =>['image'],
+            'short_video_path_vaccines' =>['file'],
+            'indication' =>['string'],
+            'recommended_age' =>['date'],
+            'guidelines' =>['string'],
+            'injection_location' =>['string'],
         ];
     }
 }
