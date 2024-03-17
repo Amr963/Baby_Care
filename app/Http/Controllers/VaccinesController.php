@@ -31,9 +31,9 @@ class VaccinesController extends Controller
      */
     public function store(StorevaccinesRequest $request)
     {
-        $image_path_vaccines=$request->file('image_path_vaccines')->store('image_path_vaccine','public');
-        $short_video_path_vaccines=$request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
-    
+        $image_path_vaccines = $request->file('image_path_vaccines')->store('image_path_vaccine', 'public');
+        $short_video_path_vaccines = $request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
+
         vaccines::create(([
             'name' => $request->name,
             'description' => $request->description,
@@ -44,7 +44,7 @@ class VaccinesController extends Controller
             'guidelines' => $request->guidelines,
             'injection_location' => $request->injection_location,
         ]));
-        return redirect()->route('vaccines.index')->with('success','vaccine created successfully');
+        return redirect()->route('vaccines.index')->with('success', 'vaccine created successfully');
     }
 
     /**
@@ -60,7 +60,7 @@ class VaccinesController extends Controller
      */
     public function edit(vaccines $vaccine)
     {
-    //   $vaccines=vaccines::findOrFail($vaccines->id);
+        //   $vaccines=vaccines::findOrFail($vaccines->id);
         return view('vaccine.edit', compact('vaccine'));
     }
 
@@ -68,35 +68,32 @@ class VaccinesController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdatevaccinesRequest $request, vaccines $vaccine)
-    { 
-    $image_path_vaccines= $vaccine->image_path_vaccines;
-    $short_video_path_vaccines=$vaccine->short_video_path_vaccines;
+    {
+        $image_path_vaccines = $vaccine->image_path_vaccines;
+        $short_video_path_vaccines = $vaccine->short_video_path_vaccines;
 
-    if($request->file('image_path_vaccines') && $request->file('image_path_vaccines') != $vaccine->image_path_vaccines ){
-        Storage::disk('public')->delete($vaccine->image_path_vaccines);
-        $image_path_vaccines=$request->file('image_path_vaccines')->store('image_path_vaccine','public');
-    };
-    
-    
-    if($request->file('short_video_path_vaccines') && $request->file('short_video_path_vaccines') != $vaccine->short_video_path_vaccines){
-        Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
-        $short_video_path_vaccines=$request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
-    };
-    
-    
-        
+        if ($request->file('image_path_vaccines') && $request->file('image_path_vaccines') != $vaccine->image_path_vaccines) {
+            Storage::disk('public')->delete($vaccine->image_path_vaccines);
+            $image_path_vaccines = $request->file('image_path_vaccines')->store('image_path_vaccine', 'public');
+        };
+
+
+        if ($request->file('short_video_path_vaccines') && $request->file('short_video_path_vaccines') != $vaccine->short_video_path_vaccines) {
+            Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
+            $short_video_path_vaccines = $request->file('short_video_path_vaccines')->store('short_video_path_vaccines', 'public');
+        };
+
         $vaccine->update([
             'name' => $request->name ? $request->name : $vaccine->name,
-            'description' => $request->description ?  $request->description :$vaccine->description,
+            'description' => $request->description ?  $request->description : $vaccine->description,
             'image_path_vaccines' => $image_path_vaccines ? $image_path_vaccines : $vaccine->image_path_vaccines,
-            'short_video_path_vaccines' =>$short_video_path_vaccines ? $short_video_path_vaccines : $vaccine->short_video_path_vaccines ,
+            'short_video_path_vaccines' => $short_video_path_vaccines ? $short_video_path_vaccines : $vaccine->short_video_path_vaccines,
             'indication' => $request->indication ?  $request->indication : $vaccine->indication,
-            'recommended_age' => $request->recommended_age ? $request->recommended_age: $vaccine->recommended_age,
+            'recommended_age' => $request->recommended_age ? $request->recommended_age : $vaccine->recommended_age,
             'guidelines' => $request->guidelines ? $request->guidelines : $vaccine->guidelines,
             'injection_location' => $request->injection_location ? $request->injection_location : $vaccine->injection_location,
         ]);
-        return redirect()->route('vaccines.index')->with('success','vaccine updated successfully');
-
+        return redirect()->route('vaccines.index')->with('success', 'vaccine updated successfully');
     }
 
     /**
@@ -104,14 +101,14 @@ class VaccinesController extends Controller
      */
     public function destroy(vaccines $vaccine)
     {
-        if(Storage::disk('public')->exists($vaccine->image_path_vaccines )){
+        if (Storage::disk('public')->exists($vaccine->image_path_vaccines)) {
             Storage::disk('public')->delete($vaccine->image_path_vaccines);
-            };
-    
-            if(Storage::disk('public')->exists($vaccine->short_video_path_vaccines)){
-                Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
-            };
+        };
+
+        if (Storage::disk('public')->exists($vaccine->short_video_path_vaccines)) {
+            Storage::disk('public')->delete($vaccine->short_video_path_vaccines);
+        };
         $vaccine->delete();
-        return redirect()->route('vaccines.index')->with('success','vaccine deleted successfully');
+        return redirect()->route('vaccines.index')->with('success', 'vaccine deleted successfully');
     }
 }

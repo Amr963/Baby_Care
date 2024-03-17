@@ -3,6 +3,7 @@
 use App\Http\Controllers\FrequentlyAskedQuestionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\ChildWeightStatsController;
 use App\Http\Controllers\VaccinesController;
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,10 @@ Route::get('/', function () {
 
 Route::resource('/vaccines', VaccinesController::class);
 
+
 Route::resources([
     '/children' => ChildrenController::class,
 ]);
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);
+Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
