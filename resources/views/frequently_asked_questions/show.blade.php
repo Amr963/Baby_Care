@@ -12,11 +12,6 @@
 <div class="container">
     <div class="row">
         
-            @if (session()->has('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
           <h5 class="text-center">Detials frequently_asked_question</h5>
 
             <table class="table">

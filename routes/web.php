@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChildProgressController;
 use App\Http\Controllers\FrequentlyAskedQuestionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChildrenController;
@@ -26,6 +27,7 @@ Route::resource('/vaccines', VaccinesController::class);
 Route::resources([
     '/children' => ChildrenController::class,
 ]);
+Route::resource('/child_progress', ChildProgressController::class);
+Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);
-Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
