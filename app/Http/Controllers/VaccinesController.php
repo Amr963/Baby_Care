@@ -6,6 +6,7 @@ use App\Models\vaccines;
 use App\Http\Requests\StorevaccinesRequest;
 use App\Http\Requests\UpdatevaccinesRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class VaccinesController extends Controller
 {
@@ -111,4 +112,14 @@ class VaccinesController extends Controller
         $vaccine->delete();
         return redirect()->route('vaccines.index')->with('success', 'vaccine deleted successfully');
     }
+    public function fromChooseAge(){
+        $allVaccines = vaccines::all();
+        return view('vaccine.fromChooseAge', compact('allVaccines'));
+    }
+    public function rightVaccine(Request $request){
+        $select_month=$request->select_month;
+        $recommended_age=vaccines::where('recommended_age',$select_month)->get();
+        return view('vaccine.displayRightVaccine',compact('recommended_age'));
+    }
+
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             //Why is the vaccine taken?
             $table->longText('indication')->nullable();
             // The recommended age to take the vaccine?
-            $table->date('recommended_age')->nullable();
+            $table->string('recommended_age')->nullable();
             //Instructions or recommendations for the process of taking the vaccine?
             $table->longText('guidelines')->nullable();
             //The appropriate injection site for the vaccine?

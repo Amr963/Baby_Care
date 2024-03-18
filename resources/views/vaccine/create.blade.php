@@ -74,7 +74,7 @@
               <br>
               <div class="col-12">
                 <label for="inputPassword4" class="form-label"><b>recommended_age</b></label>
-                <input type="date" class="form-control" id="inputPassword4" name="recommended_age"  value="{{old('recommended_age')}}" class="@error('recommended_age') is-invalid @enderror">
+                <input type="text" class="form-control" id="inputPassword4" name="recommended_age"  value="{{old('recommended_age')}}" class="@error('recommended_age') is-invalid @enderror">
                 @error('recommended_age')
                    <div class="text-danger">{{ $message }}</div>
                 @enderror
