@@ -27,7 +27,7 @@ class UpdatevaccinesRequest extends FormRequest
             'image_path_vaccines' =>['image'],
             'short_video_path_vaccines' =>['file'],
             'indication' =>['string'],
-            'recommended_age' =>['date'],
+            'recommended_age' =>['string'],
             'guidelines' =>['string'],
             'injection_location' =>['string'],
         ];

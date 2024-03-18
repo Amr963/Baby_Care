@@ -95,4 +95,11 @@ class ChildProgressController extends Controller
         $childProgress->delete();
         return redirect()->route('child_progress.index')->with('success','child_Progress deleted successfully');
     }
+
+    public function viewChildProgress()
+    {
+        $allmonth=ChildProgress::all();
+        return view('child_progress.view',compact('allmonth'));
+
+    }
 }

@@ -27,7 +27,7 @@ class StorevaccinesRequest extends FormRequest
             'image_path_vaccines' =>['required','image'],
             'short_video_path_vaccines' =>['required','file'],
             'indication' =>['required','string'],
-            'recommended_age' =>['required','date'],
+            'recommended_age' =>['required','string'],
             'guidelines' =>['required','string'],
             'injection_location' =>['required','string'],
         ];

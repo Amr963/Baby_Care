@@ -21,6 +21,9 @@ Route::get('/', function () {
 });
 
 Route::resource('/vaccines', VaccinesController::class);
+Route::get('fromChooseAge',[VaccinesController::class,'fromChooseAge'])->name('fromChooseAge');
+Route::post('/rightVaccine',[VaccinesController::class,'rightVaccine'])->name('rightVaccine');
+
 
 Route::resources([
     '/children' => ChildrenController::class,
@@ -28,4 +31,6 @@ Route::resources([
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);
 
+
 Route::resource('/child_progress',ChildProgressController::class);
+Route::get('/child_progress_view',[ChildProgressController::class,'viewChildProgress'])->name('child_progress_view');
