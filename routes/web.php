@@ -4,6 +4,7 @@ use App\Http\Controllers\ChildProgressController;
 use App\Http\Controllers\FrequentlyAskedQuestionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChildrenController;
+use App\Http\Controllers\ChildWeightStatsController;
 use App\Http\Controllers\VaccinesController;
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,9 @@ Route::post('/rightVaccine',[VaccinesController::class,'rightVaccine'])->name('r
 Route::resources([
     '/children' => ChildrenController::class,
 ]);
+Route::resource('/child_progress', ChildProgressController::class);
+Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);
 
-
 Route::resource('/child_progress',ChildProgressController::class);
-Route::get('/child_progress_view',[ChildProgressController::class,'viewChildProgress'])->name('child_progress_view');
