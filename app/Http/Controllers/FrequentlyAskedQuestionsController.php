@@ -14,7 +14,7 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function index()
     {
-        $frequently_asked_questions= frequently_asked_questions::all();
+        $frequently_asked_questions = frequently_asked_questions::all();
         return view('frequently_asked_questions.index', compact('frequently_asked_questions'));
     }
 
@@ -24,7 +24,6 @@ class FrequentlyAskedQuestionsController extends Controller
     public function create()
     {
         return view('frequently_asked_questions.create');
-        
     }
 
     /**
@@ -32,14 +31,14 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function store(Storefrequently_asked_questionsRequest $request)
     {
-        $image=$request->file('image')->store('image_frequently_asked_questions','public');
+        $image = $request->file('image')->store('image_frequently_asked_questions', 'public');
 
         frequently_asked_questions::create([
-            'question' =>$request->question,
-            'answer' =>$request->answer,
-            'image' =>$image,
+            'question' => $request->question,
+            'answer' => $request->answer,
+            'image' => $image,
         ]);
-        return redirect()->route('frequently_asked_questions.index')->with('success','asked_questions created successfully');
+        return back()->with('success', 'asked_questions created successfully');
     }
 
     /**
@@ -48,7 +47,6 @@ class FrequentlyAskedQuestionsController extends Controller
     public function show(frequently_asked_questions $frequently_asked_question)
     {
         return view('frequently_asked_questions.show', compact('frequently_asked_question'));
-        
     }
 
     /**
@@ -57,28 +55,26 @@ class FrequentlyAskedQuestionsController extends Controller
     public function edit(frequently_asked_questions $frequently_asked_question)
     {
         return view('frequently_asked_questions.edit', compact('frequently_asked_question'));
-        
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Updatefrequently_asked_questionsRequest $request, frequently_asked_questions $frequently_asked_question)
-    { 
-        $image=$frequently_asked_question->image;
-        
-        if($request->file('image') && $request->file('image') != $frequently_asked_question->image ){
-        Storage::disk('public')->delete($frequently_asked_question->image);
-        $image=$request->file('image')->store('image_frequently_asked_questions','public');
-    };
+    {
+        $image = $frequently_asked_question->image;
+
+        if ($request->file('image') && $request->file('image') != $frequently_asked_question->image) {
+            Storage::disk('public')->delete($frequently_asked_question->image);
+            $image = $request->file('image')->store('image_frequently_asked_questions', 'public');
+        }
 
         $frequently_asked_question->update([
-            'question' =>$request->question,
-            'answer' =>$request->answer,
-            'image' =>$image,
+            'question' => $request->question,
+            'answer' => $request->answer,
+            'image' => $image,
         ]);
-        return redirect()->route('frequently_asked_questions.index')->with('success','asked_questions updated successfully');
-
+        return redirect()->route('frequently_asked_questions.index')->with('success', 'asked_questions updated successfully');
     }
 
     /**
@@ -86,11 +82,11 @@ class FrequentlyAskedQuestionsController extends Controller
      */
     public function destroy(frequently_asked_questions $frequently_asked_question)
     {
-        if(Storage::disk('public')->exists($frequently_asked_question->image)){
+        if (Storage::disk('public')->exists($frequently_asked_question->image)) {
             Storage::disk('public')->delete($frequently_asked_question->image);
-        };
+        }
 
         $frequently_asked_question->delete();
-        return redirect()->route('frequently_asked_questions.index')->with('success','asked_questions deleted successfully');
+        return redirect()->route('frequently_asked_questions.index')->with('success', 'asked_questions deleted successfully');
     }
 }

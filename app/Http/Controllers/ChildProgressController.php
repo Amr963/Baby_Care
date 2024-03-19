@@ -14,7 +14,7 @@ class ChildProgressController extends Controller
      */
     public function index()
     {
-        $child_progress= ChildProgress::all();
+        $child_progress = ChildProgress::all();
         return view('child_progress.index', compact('child_progress'));
     }
 
@@ -24,7 +24,6 @@ class ChildProgressController extends Controller
     public function create()
     {
         return view('child_progress.create');
-        
     }
 
     /**
@@ -44,8 +43,7 @@ class ChildProgressController extends Controller
             'movement' => $request->movement,
             'language' => $request->language,
         ]);
-        return redirect()->route('child_progress.index')->with('success','child_progress created successfully');
-  
+        return redirect()->route('child_progress.index')->with('success', 'child_progress created successfully');
     }
 
     /**
@@ -54,7 +52,6 @@ class ChildProgressController extends Controller
     public function show(ChildProgress $childProgress)
     {
         return view('child_progress.show', compact('childProgress'));
-        
     }
 
     /**
@@ -63,7 +60,6 @@ class ChildProgressController extends Controller
     public function edit(ChildProgress $childProgress)
     {
         return view('child_progress.edit', compact('childProgress'));
-
     }
 
     /**
@@ -83,8 +79,7 @@ class ChildProgressController extends Controller
             'movement' => $request->movement,
             'language' => $request->language,
         ]);
-        return redirect()->route('child_progress.index')->with('success','child_Progress updated successfully');
-
+        return redirect()->route('child_progress.index')->with('success', 'child_Progress updated successfully');
     }
 
     /**
@@ -93,13 +88,13 @@ class ChildProgressController extends Controller
     public function destroy(ChildProgress $childProgress)
     {
         $childProgress->delete();
-        return redirect()->route('child_progress.index')->with('success','child_Progress deleted successfully');
+        return redirect()->route('child_progress.index')->with('success', 'child_Progress deleted successfully');
     }
 
-    public function viewChildProgress()
-    {
-        $allmonth=ChildProgress::all();
-        return view('child_progress.view',compact('allmonth'));
+    // public function viewChildProgress()
+    // {
+    //     $allmonth=ChildProgress::all();
+    //     return view('child_progress.view',compact('allmonth'));
 
-    }
+    // }
 }

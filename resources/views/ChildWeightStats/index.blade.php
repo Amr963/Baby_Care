@@ -1,68 +1,48 @@
-<!-- ChildWeightStats.index.blade.php -->
+@extends('layout.master')
+@section('title', 'Books')
 
-<!DOCTYPE html>
-<html lang="en">
+@section('mainContent')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Children's Weight and Length</title>
-    <!-- تضمين Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- تضمين مكتبة Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
-</head>
-
-<body>
-
-    <div class="container-fluid p-0"> {{-- تغيير .container إلى .container-fluid لاستخدام العرض الكامل للشاشة --}}
-        <div class="row m-0">ضيف لبدك تعرضو هون</div>
-
-
-        <div class="row m-0 border border-3"> {{-- إزالة الهوامش (المسافات) بين الصفوف --}}
-            <div class="col-md-6 p-1"> {{-- تقسيم العمود إلى نصفين --}}
-                <div class="card h-100">
-                    <div class="card-header bg-primary text-white">
-                        الوزن المناسب لطفلك على حسب عمره
-                    </div>
-                    <div class="card-body">
-                        <div id="yearTooltip" class="position-fixed bg-danger text-white p-2 rounded text-end"
-                            style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
-                        <div id="monthTooltip" class="position-fixed bg-primary text-white p-2 rounded text-end"
-                            style="display: none; top: 60px; right: 20px; max-width: 150px;"></div>
-                        <canvas id="scatterPlot" class="w-100 h-100"></canvas> {{-- تعيين العرض والارتفاع إلى 100% --}}
-                    </div>
+<div class="container-fluid p-0">
+    {{-- <div class="row m-0">ضيف لبدك تعرضو هون</div> --}}
+    <div class="row m-0 ">
+        <div class="col-md-6 p-1">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    الوزن المناسب لطفلك على حسب عمره
+                </div>
+                <div class="card-body">
+                    <div id="yearTooltip" class="position-fixed bg-danger text-white p-2 rounded text-end"
+                        style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
+                    <div id="monthTooltip" class="position-fixed bg-primary text-white p-2 rounded text-end"
+                        style="display: none; top: 60px; right: 20px; max-width: 150px;"></div>
+                    <canvas id="scatterPlot" class="w-100 h-100"></canvas>
                 </div>
             </div>
-            <div class="col-md-6 p-1"> {{-- تقسيم العمود إلى نصفين --}}
-                <div class="card h-100">
-                    <div class="card-header bg-success text-white">
-                        الطول المناسب لطفلك على حسب عمره
-                    </div>
-                    <div class="card-body">
-                        <div id="lengthTooltip" class="position-fixed bg-danger text-white p-2 rounded text-end"
-                            style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
-                        <canvas id="scatterPlot2" class="w-100 h-100"></canvas> {{-- تعيين العرض والارتفاع إلى 100% --}}
-                    </div>
+        </div>
+        <div class="col-md-6 p-1">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    الطول المناسب لطفلك على حسب عمره
+                </div>
+                <div class="card-body">
+                    <div id="lengthTooltip" class="position-fixed bg-success text-white p-2 rounded text-end"
+                        style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
+                    <canvas id="scatterPlot2" class="w-100 h-100"></canvas>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-
-
-    <script>
-        // تعريف البيانات
-        var agesData = <?php echo json_encode($ages); ?>;
+<script>
+    var agesData = <?php echo json_encode($ages); ?>;
         var weightsKgData = <?php echo json_encode($weightsKg); ?>;
         var yearData = [];
         var monthData = [];
 
-        // تقسيم البيانات إلى مجموعتين
+
         for (var i = 0; i < agesData.length; i++) {
             if (agesData[i].age_category === 'year') {
                 yearData.push({
@@ -79,9 +59,11 @@
             }
         }
 
-        // تكوين بيانات الخطوط
+        //
         var chartData = {
+            // x 
             labels: ['عند الولادة', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            // y
             datasets: [{
                     label: 'العمر (بالسنة)',
                     data: yearData,
@@ -136,7 +118,7 @@
                     },
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 1
+                        stepSize: 10
                     }
                 },
                 y: {
@@ -147,7 +129,7 @@
                     },
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 1
+                        stepSize: 10
                     }
                 }
             },
@@ -202,7 +184,7 @@
                                     '</div>';
                                 tooltip.style.display = 'block';
                                 tooltip.style.left = x - 150 + 'px';
-                                tooltip.style.top = y - 50 + 'px';
+                                tooltip.style.top = y + 50 + 'px';
                             }
                         });
                     }
@@ -249,7 +231,7 @@
                                     '</div>';
                                 tooltip.style.display = 'block';
                                 tooltip.style.left = x - 130 + 'px';
-                                tooltip.style.top = y + 50 + 'px';
+                                tooltip.style.top = y + 200 + 'px';
                             }
                         });
                     }
@@ -278,8 +260,8 @@
             datasets: [{
                 label: 'الطول بالنسبة الى العمر',
                 data: data,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(40, 167, 69)',
+                borderColor: 'rgba(40, 167, 69)',
                 borderWidth: 1,
                 pointHoverBackgroundColor: 'white',
                 pointHoverRadius: 10,
@@ -311,7 +293,7 @@
                     },
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 1
+                        stepSize: 10
                     }
                 },
                 y: {
@@ -322,7 +304,7 @@
                     },
                     ticks: {
                         beginAtZero: true,
-                        stepSize: 1
+                        stepSize: 10
                     }
                 }
             },
@@ -373,8 +355,8 @@
                                     '<p>الطول: ' + dataset.data[index].y + ' سم</p>' +
                                     '</div>';
                                 tooltip.style.display = 'block';
-                                tooltip.style.left = x + 500 + 'px';
-                                tooltip.style.top = y - 75 + 'px';
+                                tooltip.style.left = x + 550 + 'px';
+                                tooltip.style.top = y  + 'px';
                             }
                         });
                     }
@@ -386,20 +368,5 @@
                 }
             }
         });
-    </script>
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+</script>
+@endsection

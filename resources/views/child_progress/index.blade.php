@@ -1,78 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>index</title>
-</head>
-<body>
-    
-<div class="container">
-    <div class="row">
+@extends('layout.master')
+@section('title', 'تطور الطفل')
 
-        <h2 class="text-center">All child_progress stage</h2>
+@section('mainContent')
 
-        <div class="my-5 col-8 mx-auto">
-            <a href="{{ route('child_progress.create') }}" class="btn btn-primary">Add child_progress</a>
-        </div>
-            @if (session()->has('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">month</th>
-                        <th scope="col">abdominal_recumbency</th>
-                        <th scope="col">dorsal_recumbency</th>
-                        <th scope="col">visual_development</th>
-                        <th scope="col">social</th>
-                        <th scope="col">sitting</th>
-                        <th scope="col">stand_up</th>
-                        <th scope="col">adaptation</th>
-                        <th scope="col">movement</th>
-                        <th scope="col">language</th>
-                        <th scope="col">options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    @forelse ($child_progress as $child_progress)
-                        <tr>
-                            <th scope="row">{{ $child_progress->id }}</th>
-                            <td>{{ $child_progress->month }}</td>
-                            <td>{{ $child_progress->abdominal_recumbency }}</td>
-                            <td>{{ $child_progress->dorsal_recumbency }}</td>
-                            <td>{{ $child_progress->visual_development }}</td>
-                            <td>{{ $child_progress->social }}</td>
-                            <td>{{ $child_progress->sitting }}</td>
-                            <td>{{ $child_progress->stand_up }}</td>
-                            <td>{{ $child_progress->adaptation }}</td>
-                            <td>{{ $child_progress->movement }}</td>
-                            <td>{{ $child_progress->language }}</td>
-                            <td>
-                                <a href="{{ route('child_progress.show', $child_progress->id) }}">show</a>
-                                <a href="{{ route('child_progress.edit', $child_progress->id) }}">edit</a>
-                       
-                                {{-- <a href="{{ route('category.delete', $category->id) }}">delete</a> --}}
-                                <form action="{{ route('child_progress.destroy', $child_progress->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" name="delete" value="delete">
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="100">there is no records on categories table</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4e2e2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        font-size: 15px;
+        background-color: ##FFD4D4;
+        color: #fff;
+        padding: 10px;
+        color: black;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        color: #ccc;
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        color: #6d4343;
+        padding: 20px;
+    }
+
+    .card {
+        width: 40%;
+        height: 300px;
+        background-color: hsl(0, 100%, 99%);
+        border-radius: 10px;
+        padding: 30px;
+        margin: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        background-color: #fcc5c5;
+    }
+
+    card-subtitle .title_subtitle {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: right
+    }
+
+    .card-title {
+        font-size: 23px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: right
+    }
+
+
+    .card-subtitle {
+        font-size: 14px;
+        color: #5c5b5b;
+        text-align: right
+    }
+
+
+    /* Animation */
+    @keyframes cardAnimation {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-5px);
+        }
+
+        100% {
+            transform: translateY(1);
+        }
+    }
+
+    .animated-card {
+        animation: cardAnimation 1s ease-in-out infinite;
+    }
+</style>
+<div class="header">
+    <h1>مراحل تطور الطفل</h1>
 </div>
+<div class="card-container">
+    @foreach ($child_progress as $child_progres)
+    <div class="card animated-card">
+        <h2 class="card-title">{{ $child_progres->month }}</h2>
+        <p class="card-subtitle"><b class="title_subtitle"> الاستلقاء البطني :
+            </b>{{ $child_progres->abdominal_recumbency }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> الاستلقاء الظهري :
+            </b>{{ $child_progres->dorsal_recumbency }}
+        </p>
+        <p class="card-subtitle"><b class="title_subtitle"> الرؤية البصرية :
+            </b>{{ $child_progres->visual_development }}
+        </p>
+        <p class="card-subtitle"><b class="title_subtitle"> الاجتماعية : </b>{{ $child_progres->social }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> الجلوس : </b>{{ $child_progres->sitting }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> الوقوف : </b>{{ $child_progres->stand_up }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> التكيف : </b>{{ $child_progres->adaptation }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> الحركة : </b>{{ $child_progres->movement }}</p>
+        <p class="card-subtitle"><b class="title_subtitle"> اللغة : </b>{{ $child_progres->language }}</p>
+    </div>
+    @endforeach
+</div>
+@endsection

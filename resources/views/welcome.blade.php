@@ -1,4 +1,3 @@
-{{--
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -1005,56 +1004,4 @@
     </div>
 </body>
 
-</html> --}}
-
-
-{{-- <div class="container" style="max-width: 600px;">
-    <h2 class="mt-5">Scatter Plot for Children's Weight</h2>
-    <canvas id="scatterPlot"></canvas>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="node_modules/chart.js/dist/chart.min.js"></script>
-<script>
-    var ctx = document.getElementById('scatterPlot').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'scatter',
-        data: {
-            datasets: [{
-                label: 'Children Weight',
-                data: [
-                    { x: 0, y: 3.25 }, // أطفال عمرهم عند الولادة
-                    { x: 3, y: 12 },   // أطفال عمرهم بين 3-12 شهر
-                    // أضف المزيد من البيانات هنا
-                ],
-                backgroundColor: 'rgba(255, 99, 132, 0.5)', // لون النقاط
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1,
-                pointRadius: 6, // حجم النقاط
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Age (Years)'
-                    },
-                    ticks: {
-                        beginAtZero: true
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Weight (kg)'
-                    },
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        }
-    });
-</script> --}}
-
+</html>

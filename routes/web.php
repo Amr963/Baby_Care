@@ -20,14 +20,13 @@ use App\Http\Controllers\ChildLengthStatsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('Diseases.diseases');
+})->name('diseases');;
 
 Route::resource('/vaccines', VaccinesController::class);
 Route::get('fromChooseAge', [VaccinesController::class, 'fromChooseAge'])->name('fromChooseAge');
 Route::post('/rightVaccine', [VaccinesController::class, 'rightVaccine'])->name('rightVaccine');
 Route::resource('/ChildLengthStats', ChildLengthStatsController::class);
-
 
 Route::resources([
     '/children' => ChildrenController::class,
@@ -36,3 +35,6 @@ Route::resource('/child_progress', ChildProgressController::class);
 Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);
+Route::get('/diseases', function () {
+    return view('Diseases.diseases');
+})->name('diseases');
