@@ -33,6 +33,8 @@ Route::resources([
     '/children' => ChildrenController::class,
 ]);
 Route::resource('/child_progress', ChildProgressController::class);
+Route::get('viewChildProgress',[ChildProgressController::class,'viewChildProgress'])->name('viewChildProgress');
+
 Route::resource('/ChildWeightStats', ChildWeightStatsController::class);
 
 Route::resource('/frequently_asked_questions', FrequentlyAskedQuestionsController::class);

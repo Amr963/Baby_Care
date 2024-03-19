@@ -4,7 +4,7 @@
     <title>صفحة رسمية</title>
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #fcc5c5;
             font-family: Arial, sans-serif;
         }
 
