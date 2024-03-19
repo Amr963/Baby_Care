@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChildLengthStats;
 use App\Models\ChildWeightStats;
 use App\Http\Requests\StoreChildWeightStatsRequest;
 use App\Http\Requests\UpdateChildWeightStatsRequest;
@@ -13,10 +14,11 @@ class ChildWeightStatsController extends Controller
      */
     public function index()
     {
-        // $ages = ChildWeightStats::select('age', 'age_category')->get()->toArray();
         $ages = ChildWeightStats::get(['age', 'age_category'])->toArray();
         $weightsKg = ChildWeightStats::pluck('weightKg')->toArray();
-        return view('ChildWeightStats.index', compact('ages', 'weightsKg'));
+        $age_for_length = ChildLengthStats::get(['age'])->toArray();
+        $length_child = ChildLengthStats::get(['length_child'])->toArray();
+        return view('ChildWeightStats.index', compact('ages', 'weightsKg', 'age_for_length', 'length_child'));
     }
 
     /**

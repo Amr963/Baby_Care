@@ -1,3 +1,5 @@
+<!-- ChildWeightStats.index.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,26 +8,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Children's Weight</title>
     <!-- تضمين Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-    <div class="container">
-        <h2 class="mt-5">Children's Weight</h2>
-        <canvas id="scatterPlot"></canvas>
-    </div>
-
-    <?php
-    $ages_json = json_encode($ages);
-    $weightsKg_json = json_encode($weightsKg);
-    // dd($ages_json,$weightsKg_json);
-    ?>
+    {{--
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- تضمين مكتبة Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="row"> {{-- First row --}}
+
+            <div class="col position-relative">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        الوزن المناسب لطفلك على حسب عمره
+                    </div>
+                    <div class="card-body">
+                        <div id="yearTooltip" class="position-fixed bg-danger text-white p-2 rounded text-end"
+                            style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
+                        <div id="monthTooltip" class="position-fixed bg-primary text-white p-2 rounded text-end"
+                            style="display: none; top: 60px; right: 20px; max-width: 150px;"></div>
+                        <canvas id="scatterPlot" class="flex-grow-1 mr-2"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Second Card -->
+            <div class="col position-relative">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        الطول المناسب لطفلك على حسب عمره
+                    </div>
+                    <div class="card-body">
+                        <div id="lengthTooltip" class="position-fixed bg-danger text-white p-2 rounded text-end"
+                            style="display: none; top: 20px; right: 20px; max-width: 150px;"></div>
+                        <canvas id="scatterPlot2" class="flex-grow-1 mr-2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        var agesData = <?php echo $ages_json; ?>;
-        var weightsKgData = <?php echo $weightsKg_json; ?>;
+        // تعريف البيانات
+        var agesData = <?php echo json_encode($ages); ?>;
+        var weightsKgData = <?php echo json_encode($weightsKg); ?>;
         var yearData = [];
         var monthData = [];
 
@@ -46,11 +77,11 @@
             }
         }
 
-        // تكوين بيانات الخطوط المنفصلة
+        // تكوين بيانات الخطوط
         var chartData = {
             labels: ['عند الولادة', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             datasets: [{
-                    label: 'الوزن (بالسنة)',
+                    label: 'العمر (بالسنة)',
                     data: yearData,
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     borderColor: 'rgba(255, 99, 132, 1)',
@@ -62,9 +93,10 @@
                     clip: true,
                     pointStyle: 'rectRounded',
                     fill: false,
+                    category: 'year'
                 },
                 {
-                    label: 'الوزن (بالشهر)',
+                    label: 'العمر (بالشهر)',
                     data: monthData,
                     backgroundColor: 'rgba(54, 162, 235, 0.5)',
                     borderColor: 'rgba(54, 162, 235, 1)',
@@ -76,110 +108,14 @@
                     clip: true,
                     pointStyle: 'rectRounded',
                     fill: false,
+                    category: 'month'
                 }
             ]
         };
 
-        // customTooltip : 
-        let indexDataPoint;
-        const customTooltip = {
-            id: 'customTooltip',
-            afterDatasetsDraw(chart, args, plugins) {
-                const {
-                    ctx,
-                    data,
-                    scales: {
-                        x,
-                        y
-                    }
-                } = chart;
-
-                if (indexDataPoint === undefined) {
-                    return '';
-                }
-
-                const xPos = x.getPixelForValue(data.labels[indexDataPoint.indexValue]);
-
-                const yPos0 = chart.getDatasetMeta(indexDataPoint.highestValue).data[indexDataPoint.indexValue]
-                    .y; //year
-                const yPos1 = chart.getDatasetMeta(indexDataPoint.lowestValue).data[indexDataPoint.indexValue]
-                    .y; //month
-
-                tooltip(yPos0 + 30, indexDataPoint.highestValue, -1, -38);
-                tooltip(yPos1, indexDataPoint.lowestValue, 1, +18);
-
-                function tooltip(y, datasetIndex, tooltipPosition, cloudPosition) {
-                    //cloud
-                    ctx.beginPath();
-                    ctx.fillStyle = data.datasets[datasetIndex].borderColor;
-                    // ctx.roundRect(xPos - 50, y + cloudPosition, 100, 20, 10);
-                    ctx.roundRect(xPos - 70, y + cloudPosition, 200, 20, 10); // زيادة عرض الشكل
-
-                    // caret
-                    ctx.moveTo(xPos, y + (13 * tooltipPosition));
-                    ctx.lineTo(xPos - 5, y + (18 * tooltipPosition));
-                    ctx.lineTo(xPos + 5, y + (18 * tooltipPosition));
-                    ctx.closePath();
-                    ctx.fill();
-
-                    // تحديد النص للعرض
-                    const age = data.labels[indexDataPoint.indexValue];
-
-                    const category = data.datasets[datasetIndex].data[indexDataPoint.indexValue].category === 'year' ?
-                        'سنوات' : 'أشهر';
-                    const weight = data.datasets[datasetIndex].data[indexDataPoint.indexValue].y;
-
-                    // text 1
-                    ctx.fillStyle = 'white';
-                    ctx.font = 'bold 10px sans-serif';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('العمر: ' + age + ' ' + category, xPos - 65, y + cloudPosition +
-                        10); // زيادة البعد عن اليسار
-
-                    // text 2
-                    ctx.font = 'bold 12px sans-serif';
-                    ctx.textAlign = 'right';
-                    ctx.fillText('الوزن: ' + weight + ' كجم', xPos + 120, y + cloudPosition +
-                        10); // زيادة البعد عن اليمين
-
-                };
-
-            },
-
-            afterEvent(chart, args) {
-                const {
-                    ctx,
-                    data: chartData,
-                    scales: {
-                        x,
-                        y,
-                    }
-                } = chart;
-                const xCoor = args.event.x;
-                const yCoor = args.event.y;
-                ctx.save();
-                chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
-                    if (datapoint.active === true && args.inChartArea) {
-                        const up = (chartData.datasets[0].data[index].y >= chartData.datasets[1].data[index]
-                                .y) ?
-                            0 : 1;
-                        const down = up > 0 ? 0 : 1;
-                        indexDataPoint = {
-                            indexValue: index,
-                            highestValue: up,
-                            lowestValue: down,
-                        }
-                    };
-                    if (!args.inChartArea) {
-                        indexDataPoint = undefined;
-                    };
-
-                });
-            },
-        };
-        //------------------
-        // إعداد محاور المخطط
+        // تكوين خيارات الرسم
         var options = {
+            responsive: true,
             layout: {
                 padding: {
                     left: 50,
@@ -219,14 +155,248 @@
                 }
             },
         };
-        // إعداد مخطط البيانات
+
+        // الحصول على سياق الرسم
         var ctx = document.getElementById('scatterPlot').getContext('2d');
+
+        // تكوين المخطط
         var myChart = new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: options,
-            plugins: [customTooltip],
         });
+
+        // تسجيل التول تيب الخاص بالعمر بالسنة
+        Chart.register({
+            id: 'customTooltipYear',
+            afterDatasetsDraw: function(chart, args) {
+                const {
+                    ctx,
+                    data
+                } = chart;
+                const datasets = data.datasets;
+
+                let isAnyActive = false;
+
+                datasets.forEach(function(dataset, i) {
+                    const meta = chart.getDatasetMeta(i);
+                    if (!meta.hidden) {
+                        meta.data.forEach(function(element, index) {
+                            // إذا كانت النقطة محددة
+                            if (element.active && dataset.category === 'year') {
+                                isAnyActive = true;
+                                const {
+                                    x,
+                                    y
+                                } = element.tooltipPosition();
+                                // تحديث التول تيب
+                                const tooltip = document.getElementById('yearTooltip');
+                                tooltip.innerHTML = '<div class="bg-' + dataset.borderColor
+                                    .substring(4) +
+                                    ' text-white rounded p-2">' +
+                                    '<h5>' + dataset.label + '</h5>' +
+                                    '<p>العمر: ' + data.labels[index] + '</p>' +
+                                    '<p>الوزن: ' + dataset.data[index].y + ' كجم</p>' +
+                                    '</div>';
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = x + 'px';
+                                tooltip.style.top = y + 'px';
+                            }
+                        });
+                    }
+                });
+
+                if (!isAnyActive) {
+                    const tooltip = document.getElementById('yearTooltip');
+                    tooltip.style.display = 'none';
+                }
+            }
+        });
+
+        // تسجيل التول تيب الخاص بالعمر بالشهر
+        Chart.register({
+            id: 'customTooltipMonth',
+            afterDatasetsDraw: function(chart, args) {
+                const {
+                    ctx,
+                    data
+                } = chart;
+                const datasets = data.datasets;
+
+                let isAnyActive = false;
+
+                datasets.forEach(function(dataset, i) {
+                    const meta = chart.getDatasetMeta(i);
+                    if (!meta.hidden) {
+                        meta.data.forEach(function(element, index) {
+                            // إذا كانت النقطة محددة
+                            if (element.active && dataset.category === 'month') {
+                                isAnyActive = true;
+                                const {
+                                    x,
+                                    y
+                                } = element.tooltipPosition();
+                                // تحديث التول تيب
+                                const tooltip = document.getElementById('monthTooltip');
+                                tooltip.innerHTML = '<div class="bg-' + dataset.borderColor
+                                    .substring(4) +
+                                    ' text-white rounded p-2">' +
+                                    '<h5>' + dataset.label + '</h5>' +
+                                    '<p>العمر: ' + data.labels[index] + '</p>' +
+                                    '<p>الوزن: ' + dataset.data[index].y + ' كجم</p>' +
+                                    '</div>';
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = x + 'px';
+                                tooltip.style.top = y + 'px';
+                            }
+                        });
+                    }
+                });
+
+                if (!isAnyActive) {
+                    const tooltip = document.getElementById('monthTooltip');
+                    tooltip.style.display = 'none';
+                }
+            }
+        });
+
+        var agesLengthData = <?php echo json_encode($age_for_length); ?>;
+        var lengthData = <?php echo json_encode($length_child); ?>;
+        var data = [];
+        // تقسيم البيانات إلى مجموعتين
+        for (var i = 0; i < agesLengthData.length; i++) {
+            data.push({
+                x: agesLengthData[i]['age'],
+                y: lengthData[i]['length_child'],
+            });
+        }
+        // تكوين بيانات الخطوط
+        var chartData1 = {
+            labels: ['عند الولادة', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            datasets: [{
+                label: 'الطول بالنسبة الى العمر',
+                data: data,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1,
+                pointHoverBackgroundColor: 'white',
+                pointHoverRadius: 10,
+                pointHoverBorderWidth: 3,
+                pointRadius: 6,
+                clip: true,
+                pointStyle: 'rectRounded',
+                fill: false,
+            }]
+        };
+
+        var options1 = {
+            responsive: true,
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 20,
+                },
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'عمر الطفل'
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                },
+                y: {
+                    grace: 1,
+                    title: {
+                        display: true,
+                        text: 'الطول (سم)'
+                    },
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    enabled: false,
+                }
+            },
+        };
+
+        var ctx1 = document.getElementById('scatterPlot2').getContext('2d');
+        var myChart2 = new Chart(ctx1, {
+            type: 'line',
+            data: chartData1,
+            options: options1,
+        });
+
+        Chart.register({
+            id: 'customTooltipLengthForAge',
+            afterDatasetsDraw: function(myChart2, args) {
+                if (myChart2.canvas.id !== 'scatterPlot2')
+                    return;
+
+                const {
+                    ctx1,
+                    data
+                } = myChart2;
+                const datasets = data.datasets;
+
+                let isAnyActive = false;
+
+                datasets.forEach(function(dataset, i) {
+                    const meta = myChart2.getDatasetMeta(i);
+                    if (!meta.hidden) {
+                        meta.data.forEach(function(element, index) {
+                            if (element.active) {
+                                isAnyActive = true;
+                                const {
+                                    x,
+                                    y
+                                } = element.tooltipPosition();
+                                const tooltip = document.getElementById('lengthTooltip');
+                                tooltip.innerHTML = '<div class="bg-' + dataset.borderColor
+                                    .substring(4) +
+                                    ' text-white rounded p-2" style="z-index: 1000;">' +
+                                    '<h5>' + dataset.label + '</h5>' +
+                                    '<p>العمر: ' + data.labels[index] + '</p>' +
+                                    '<p>الطول: ' + dataset.data[index].y + ' سم</p>' +
+                                    '</div>';
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = x + 500 + 'px';
+                                tooltip.style.top = y - 100 + 'px';
+                            }
+                        });
+                    }
+                });
+
+                if (!isAnyActive) {
+                    const tooltip = document.getElementById('lengthTooltip');
+                    tooltip.style.display = 'none';
+                }
+            }
+        });
+    </script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 </body>
 

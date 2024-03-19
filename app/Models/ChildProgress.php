@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChildProgress extends Model
 {
     use HasFactory;
-    protected $fillable=[  
+    protected $fillable = [
         'month',
         'abdominal_recumbency',
         'dorsal_recumbency',
@@ -19,5 +19,5 @@ class ChildProgress extends Model
         'adaptation',
         'movement',
         'language',
-     ];
+    ];
 }
