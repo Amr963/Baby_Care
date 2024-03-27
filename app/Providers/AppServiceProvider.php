@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\ChildLengthStats;
 use App\Models\ChildWeightStats;
+use Illuminate\Support\ServiceProvider;
 use App\Observers\ChildLengthStatsObserver;
 use App\Observers\ChildWeightStatsObserver;
-use Illuminate\Support\ServiceProvider;
+
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,4 +28,5 @@ class AppServiceProvider extends ServiceProvider
         ChildWeightStats::observe(ChildWeightStatsObserver::class);
         ChildLengthStats::observe(ChildLengthStatsObserver::class);
     }
+
 }

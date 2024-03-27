@@ -14,6 +14,7 @@ class ChildProgressController extends Controller
      */
     public function index()
     {
+
         $child_progress = ChildProgress::all();
         return view('child_progress.index', compact('child_progress'));
     }
